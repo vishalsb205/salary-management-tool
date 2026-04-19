@@ -64,5 +64,23 @@ RSpec.describe Employee, type: :model do
       expect(employee.errors[:salary]).to include("must be greater than 0")
     end
 
+    it "is invalid with a duplicate email in a different case" do
+      Employee.create!(
+        full_name: "Existing Employee",
+        email: "hr@example.com",
+        salary: 75000
+      )
+
+      employee = Employee.new(
+        full_name: "Vishal Sharma",
+        email: "HR@EXAMPLE.COM",
+        salary: 80000
+      )
+
+      expect(employee).not_to be_valid
+      expect(employee.errors[:email]).to include("has already been taken")
+    end
+
+
   end
 end
