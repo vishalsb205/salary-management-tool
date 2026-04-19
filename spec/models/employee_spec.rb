@@ -25,5 +25,15 @@ RSpec.describe Employee, type: :model do
       expect(employee).not_to be_valid
       expect(employee.errors[:email]).to include("can't be blank")
     end
+
+    it "is invalid without a salary" do
+      employee = Employee.new(
+        full_name: "Vishal Sharma",
+        email: "hr@example.com"
+      )
+
+      expect(employee).not_to be_valid
+      expect(employee.errors[:salary]).to include("can't be blank")
+    end
   end
 end
