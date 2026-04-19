@@ -22,12 +22,25 @@ function AnalyticsDashboard() {
 
       {analytics && (
         <div>
-          <p>Employee Count: {analytics.employee_count}</p>
-          <p>Minimum Salary: {analytics.min_salary}</p>
-          <p>Maximum Salary: {analytics.max_salary}</p>
-          <p>Average Salary: {analytics.avg_salary}</p>
+            <p>Employee Count: {analytics.employee_count}</p>
+            <p>Minimum Salary: {analytics.min_salary}</p>
+            <p>Maximum Salary: {analytics.max_salary}</p>
+            <p>Average Salary: {analytics.avg_salary}</p>
+
+            <div>
+            <h3>Average Salary by Job Title</h3>
+            <ul>
+                {Object.entries(analytics.average_salary_by_job_title || {}).map(
+                ([jobTitle, averageSalary]) => (
+                    <li key={jobTitle}>
+                    {jobTitle}: {averageSalary}
+                    </li>
+                )
+                )}
+            </ul>
+            </div>
         </div>
-      )}
+        )}
     </div>
   );
 }

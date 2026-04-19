@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import EmployeeList from "./components/EmployeeList";
 import EmployeeForm from "./components/EmployeeForm";
+import AnalyticsDashboard from "./components/AnalyticsDashboard";
 
 function App() {
   const [refreshKey, setRefreshKey] = useState(0);
@@ -34,7 +35,7 @@ function App() {
 
         <section id="analytics">
           <h2>Analytics</h2>
-          <p>Salary insights will appear here.</p>
+          <AnalyticsDashboard />
         </section>
       </main>
     </div>
