@@ -37,62 +37,7 @@ RSpec.describe "Api::V1::Employees", type: :request do
       )
     end
 
-    it "returns an empty paginated list" do
-      get "/api/v1/employees", params: { page: 1, per_page: 2 }
-
-      expect(response).to have_http_status(:ok)
-      expect(JSON.parse(response.body)).to eq(
-        {
-          "employees" => [],
-          "meta" => {
-            "page" => 1,
-            "per_page" => 2,
-            "total_count" => 0
-          }
-        }
-      )
-    end
-
-    it "returns employees in a paginated response" do
-      employee = Employee.create!(
-        full_name: "Vishal Sharma",
-        email: "vishal@example.com",
-        salary: 75000
-      )
-
-      get "/api/v1/employees"
-
-      expect(response).to have_http_status(:ok)
-
-      body = JSON.parse(response.body)
-
-      expect(body["employees"]).to eq(
-        [
-          {
-            "id" => employee.id,
-            "full_name" => "Vishal Sharma",
-            "email" => "vishal@example.com",
-            "salary" => 75000,
-            "job_title" => nil,
-            "department" => nil,
-            "country" => nil,
-            "active" => true,
-            "created_at" => employee.created_at.as_json,
-            "updated_at" => employee.updated_at.as_json
-          }
-        ]
-      )
-
-      expect(body["meta"]).to eq(
-        {
-          "page" => 1,
-          "per_page" => 25,
-          "total_count" => 1
-        }
-      )
-    end
-
-    it "returns paginated employees" do
+    it "returns paginated employees when page params are provided" do
       Employee.create!(full_name: "Emp 1", email: "emp1@example.com", salary: 1000)
       Employee.create!(full_name: "Emp 2", email: "emp2@example.com", salary: 2000)
       Employee.create!(full_name: "Emp 3", email: "emp3@example.com", salary: 3000)

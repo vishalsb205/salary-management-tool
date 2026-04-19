@@ -2,7 +2,25 @@ module Api
   module V1
     class EmployeesController < ApplicationController
       def index
-        render json: Employee.all
+        employees = Employee.all
+
+        if params[:page].present? || params[:per_page].present?
+            page = params.fetch(:page, 1).to_i
+            per_page = params.fetch(:per_page, 25).to_i
+
+          paginated_employees = employees.offset((page - 1) * per_page).limit(per_page)
+
+          render json: {
+          employees: paginated_employees,
+          meta: {
+              page: page,
+              per_page: per_page,
+              total_count: employees.count
+            }
+          }
+        else
+          render json: employees
+        end
       end
 
       def create
