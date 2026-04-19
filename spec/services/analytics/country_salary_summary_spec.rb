@@ -35,5 +35,48 @@ RSpec.describe Analytics::CountrySalarySummary do
         }
       )
     end
+
+    it "returns average salary by job title within a country" do
+      Employee.create!(
+        full_name: "Asha Sharma",
+        email: "asha@example.com",
+        salary: 50000,
+        country: "India",
+        job_title: "Engineer"
+      )
+
+      Employee.create!(
+        full_name: "Ravi Kumar",
+        email: "ravi@example.com",
+        salary: 70000,
+        country: "India",
+        job_title: "Engineer"
+      )
+
+      Employee.create!(
+        full_name: "Priya Singh",
+        email: "priya@example.com",
+        salary: 60000,
+        country: "India",
+        job_title: "HR Manager"
+      )
+
+      Employee.create!(
+        full_name: "John Smith",
+        email: "john@example.com",
+        salary: 90000,
+        country: "USA",
+        job_title: "Engineer"
+      )
+
+      result = described_class.call(country: "India")
+
+      expect(result[:average_salary_by_job_title]).to eq(
+        {
+        "Engineer" => 60000.0,
+        "HR Manager" => 60000.0
+        }
+      )
+    end
   end
 end
