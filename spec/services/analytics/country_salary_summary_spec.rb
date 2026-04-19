@@ -76,5 +76,31 @@ RSpec.describe Analytics::CountrySalarySummary do
         }
       )
     end
+
+    it "returns employee count for the country" do
+      Employee.create!(
+        full_name: "Asha Sharma",
+        email: "asha@example.com",
+        salary: 50000,
+        country: "India"
+      )
+
+      Employee.create!(
+        full_name: "Ravi Kumar",
+        email: "ravi@example.com",
+        salary: 70000,
+        country: "India"
+      )
+
+      Employee.create!(
+        full_name: "John Smith",
+        email: "john@example.com",
+        salary: 90000,
+        country: "USA"
+      )
+
+      result = described_class.call(country: "India")
+      expect(result[:employee_count]).to eq(2)
+    end
   end
 end
