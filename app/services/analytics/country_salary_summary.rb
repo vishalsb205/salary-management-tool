@@ -5,6 +5,7 @@ module Analytics
 
       {
         country: country,
+        employee_count: scope.count,
         min_salary: scope.minimum(:salary),
         max_salary: scope.maximum(:salary),
         avg_salary: scope.average(:salary).to_f,
