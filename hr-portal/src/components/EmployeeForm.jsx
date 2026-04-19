@@ -18,8 +18,25 @@ function EmployeeForm() {
     }));
   }
 
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    fetch("http://localhost:3000/api/v1/employees", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        employee: {
+          ...formData,
+          salary: Number(formData.salary),
+        },
+      }),
+    });
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="full_name">Full Name</label>
         <input
