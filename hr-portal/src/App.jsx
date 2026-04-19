@@ -1,35 +1,43 @@
-import "./App.css";
+function EmployeeList() {
+  const employees = [
+    {
+      id: 1,
+      full_name: "Vishal Sharma",
+      email: "vishal@example.com",
+      salary: 75000,
+      country: "India",
+    },
+    {
+      id: 2,
+      full_name: "Asha Patel",
+      email: "asha@example.com",
+      salary: 82000,
+      country: "India",
+    },
+  ];
 
-function App() {
   return (
-    <div className="app-shell">
-      <header className="app-header">
-        <h1>Salary Management Tool</h1>
-        <nav className="app-nav">
-          <a href="#employees">Employees</a>
-          <a href="#employee-form">Add Employee</a>
-          <a href="#analytics">Analytics</a>
-        </nav>
-      </header>
-
-      <main className="app-content">
-        <section id="employees">
-          <h2>Employees</h2>
-          <p>Employee list will appear here.</p>
-        </section>
-
-        <section id="employee-form">
-          <h2>Add Employee</h2>
-          <p>Employee form will appear here.</p>
-        </section>
-
-        <section id="analytics">
-          <h2>Analytics</h2>
-          <p>Salary insights will appear here.</p>
-        </section>
-      </main>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Salary</th>
+          <th>Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        {employees.map((employee) => (
+          <tr key={employee.id}>
+            <td>{employee.full_name}</td>
+            <td>{employee.email}</td>
+            <td>{employee.salary}</td>
+            <td>{employee.country}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
 
-export default App;
+export default EmployeeList;
