@@ -80,5 +80,17 @@ RSpec.describe Employee, type: :model do
       expect(employee).not_to be_valid
       expect(employee.errors[:email]).to include("has already been taken")
     end
+
+    it "is invalid with a malformed email" do
+      employee = Employee.new(
+        full_name: "Vishal Sharma",
+        email: "not-an-email",
+        salary: 75000
+      )
+
+      expect(employee).not_to be_valid
+      expect(employee.errors[:email]).to include("is invalid")
+    end
+
   end
 end
