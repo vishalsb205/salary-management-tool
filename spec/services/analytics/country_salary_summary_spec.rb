@@ -100,7 +100,34 @@ RSpec.describe Analytics::CountrySalarySummary do
       )
 
       result = described_class.call(country: "India")
+
       expect(result[:employee_count]).to eq(2)
+    end
+
+    it "does not include blank job titles in average salary by job title" do
+      Employee.create!(
+        full_name: "Asha Sharma",
+        email: "asha@example.com",
+        salary: 50000,
+        country: "India",
+        job_title: "Engineer"
+      )
+
+      Employee.create!(
+        full_name: "Ravi Kumar",
+        email: "ravi@example.com",
+        salary: 70000,
+        country: "India",
+        job_title: nil
+      )
+
+      result = described_class.call(country: "India")
+
+      expect(result[:average_salary_by_job_title]).to eq(
+        {
+        "Engineer" => 50000.0
+        }
+      )
     end
   end
 end

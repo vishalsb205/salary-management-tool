@@ -69,5 +69,36 @@ RSpec.describe "Api::V1::Analytics", type: :request do
         }
       )
     end
+
+    it "returns employee count for the country" do
+      Employee.create!(
+        full_name: "Asha Sharma",
+        email: "asha@example.com",
+        salary: 50000,
+        country: "India"
+      )
+
+      Employee.create!(
+        full_name: "Ravi Kumar",
+        email: "ravi@example.com",
+        salary: 70000,
+        country: "India"
+      )
+
+      Employee.create!(
+        full_name: "John Smith",
+        email: "john@example.com",
+        salary: 90000,
+        country: "USA"
+      )
+
+      get "/api/v1/analytics", params: { country: "India" }
+
+      expect(response).to have_http_status(:ok)
+
+      body = JSON.parse(response.body)
+
+      expect(body["employee_count"]).to eq(2)
+    end
   end
 end
