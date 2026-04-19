@@ -52,5 +52,17 @@ RSpec.describe Employee, type: :model do
       expect(employee).not_to be_valid
       expect(employee.errors[:email]).to include("has already been taken")
     end
+
+    it "is invalid with a non-positive salary" do
+      employee = Employee.new(
+        full_name: "Vishal Sharma",
+        email: "hr2@example.com",
+        salary: 0
+      )
+
+      expect(employee).not_to be_valid
+      expect(employee.errors[:salary]).to include("must be greater than 0")
+    end
+
   end
 end
