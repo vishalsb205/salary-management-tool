@@ -37,4 +37,26 @@ RSpec.describe "Api::V1::Employees", type: :request do
       )
     end
   end
+
+  describe "POST /api/v1/employees" do
+    it "creates an employee" do
+      expect do
+        post "/api/v1/employees", params: {
+          employee: {
+            full_name: "Vishal Sharma",
+            email: "vishal@example.com",
+            salary: 75000
+          }
+        }
+      end.to change(Employee, :count).by(1)
+
+      expect(response).to have_http_status(:created)
+
+      body = JSON.parse(response.body)
+
+      expect(body["full_name"]).to eq("Vishal Sharma")
+      expect(body["email"]).to eq("vishal@example.com")
+      expect(body["salary"]).to eq(75000)
+    end
+  end
 end
