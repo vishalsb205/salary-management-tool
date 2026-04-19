@@ -4,13 +4,75 @@ This template provides a minimal setup to get React working in Vite with HMR and
 
 Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- @vitejs/plugin-react uses Oxc
+- @vitejs/plugin-react-swc uses SWC
 
 ## React Compiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The React Compiler is not enabled on this template because of its impact on dev & build performance.
 
 ## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+For production apps, use TypeScript and eslint tooling.
+
+---
+
+# Salary Management Tool
+
+A minimal salary management system for HR teams to manage employees and view salary insights.
+
+## Tech Stack
+
+### Backend
+- Ruby on Rails (API mode)
+- PostgreSQL
+- RSpec
+
+### Frontend
+- React (Vite)
+- JavaScript
+
+---
+
+## Features
+
+### Employee Management
+- CRUD employees
+- full name, email, job title, country, salary, department, active status
+
+### Salary Insights
+- min / max / avg salary by country
+- avg salary by job title
+
+---
+
+## Backend Setup
+
+bundle install  
+bin/rails db:create db:migrate  
+bin/rails server  
+
+---
+
+## Frontend Setup
+
+cd hr-portal  
+npm install  
+npm run dev  
+
+---
+
+## Testing
+
+bundle exec rspec
+
+---
+
+## API Endpoints
+
+GET /api/v1/employees  
+POST /api/v1/employees  
+PATCH /api/v1/employees/:id  
+DELETE /api/v1/employees/:id  
+
+GET /api/v1/analytics?country=India
