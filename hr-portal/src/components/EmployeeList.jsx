@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-function EmployeeList() {
+function EmployeeList({ refreshKey }) {
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:3000/api/v1/employees")
       .then((response) => response.json())
       .then((data) => setEmployees(data));
-  }, []);
+  }, [refreshKey]);
 
   return (
     <table>

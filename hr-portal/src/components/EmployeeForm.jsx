@@ -1,13 +1,16 @@
 import { useState } from "react";
 
-function EmployeeForm() {
-  const [formData, setFormData] = useState({
+function EmployeeForm({ onEmployeeCreated }) {
+  const initialFormData = {
     full_name: "",
     email: "",
     salary: "",
     country: "",
     job_title: "",
-  });
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -32,6 +35,11 @@ function EmployeeForm() {
           salary: Number(formData.salary),
         },
       }),
+    }).then((response) => {
+      if (response.ok) {
+        setFormData(initialFormData);
+        onEmployeeCreated();
+      }
     });
   }
 

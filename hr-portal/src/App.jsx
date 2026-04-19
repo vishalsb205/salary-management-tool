@@ -1,43 +1,44 @@
-function EmployeeList() {
-  const employees = [
-    {
-      id: 1,
-      full_name: "Vishal Sharma",
-      email: "vishal@example.com",
-      salary: 75000,
-      country: "India",
-    },
-    {
-      id: 2,
-      full_name: "Asha Patel",
-      email: "asha@example.com",
-      salary: 82000,
-      country: "India",
-    },
-  ];
+import { useState } from "react";
+import "./App.css";
+import EmployeeList from "./components/EmployeeList";
+import EmployeeForm from "./components/EmployeeForm";
+
+function App() {
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  function handleEmployeeCreated() {
+    setRefreshKey((current) => current + 1);
+  }
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Salary</th>
-          <th>Country</th>
-        </tr>
-      </thead>
-      <tbody>
-        {employees.map((employee) => (
-          <tr key={employee.id}>
-            <td>{employee.full_name}</td>
-            <td>{employee.email}</td>
-            <td>{employee.salary}</td>
-            <td>{employee.country}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="app-shell">
+      <header className="app-header">
+        <h1>Salary Management Tool</h1>
+        <nav className="app-nav">
+          <a href="#employees">Employees</a>
+          <a href="#employee-form">Add Employee</a>
+          <a href="#analytics">Analytics</a>
+        </nav>
+      </header>
+
+      <main className="app-content">
+        <section id="employees">
+          <h2>Employees</h2>
+          <EmployeeList refreshKey={refreshKey} />
+        </section>
+
+        <section id="employee-form">
+          <h2>Add Employee</h2>
+          <EmployeeForm onEmployeeCreated={handleEmployeeCreated} />
+        </section>
+
+        <section id="analytics">
+          <h2>Analytics</h2>
+          <p>Salary insights will appear here.</p>
+        </section>
+      </main>
+    </div>
   );
 }
 
-export default EmployeeList;
+export default App;
