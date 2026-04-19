@@ -58,5 +58,27 @@ RSpec.describe "Api::V1::Employees", type: :request do
       expect(body["email"]).to eq("vishal@example.com")
       expect(body["salary"]).to eq(75000)
     end
+
+    it "returns errors when the employee is invalid" do
+      expect do
+        post "/api/v1/employees", params: {
+          employee: {
+            full_name: "",
+            email: "",
+            salary: nil
+          }
+        }
+      end.not_to change(Employee, :count)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+
+      body = JSON.parse(response.body)
+
+      expect(body["errors"]).to include(
+        "full_name" => include("can't be blank"),
+        "email" => include("can't be blank"),
+        "salary" => include("can't be blank")
+      )
+    end
   end
 end
