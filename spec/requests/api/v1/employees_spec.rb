@@ -81,4 +81,25 @@ RSpec.describe "Api::V1::Employees", type: :request do
       )
     end
   end
+
+  describe "GET /api/v1/employees/:id" do
+    it "returns a single employee" do
+      employee = Employee.create!(
+        full_name: "Vishal Sharma",
+        email: "vishal@example.com",
+        salary: 75000
+      )
+
+      get "/api/v1/employees/#{employee.id}"
+
+      expect(response).to have_http_status(:ok)
+
+      body = JSON.parse(response.body)
+
+      expect(body["id"]).to eq(employee.id)
+      expect(body["full_name"]).to eq("Vishal Sharma")
+      expect(body["email"]).to eq("vishal@example.com")
+      expect(body["salary"]).to eq(75000)
+    end
+  end
 end
