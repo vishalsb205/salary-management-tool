@@ -101,4 +101,10 @@ RSpec.describe Employee, type: :model do
     expect(email_index.unique).to be(true)
   end
 
+  it "has an index on country" do
+    indexes = ActiveRecord::Base.connection.indexes(:employees)
+    country_index = indexes.find { |index| index.columns == ["country"] }
+
+    expect(country_index).not_to be_nil
+  end
 end

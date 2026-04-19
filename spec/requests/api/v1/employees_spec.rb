@@ -150,7 +150,39 @@ RSpec.describe "Api::V1::Employees", type: :request do
       expect(employee.full_name).to eq("Vishal Kumar")
       expect(employee.salary).to eq(80000)
     end
+
+    it "returns errors when the update is invalid" do
+      employee = Employee.create!(
+        full_name: "Vishal Sharma",
+        email: "vishal@example.com",
+        salary: 75000
+      )
+
+      patch "/api/v1/employees/#{employee.id}", params: {
+        employee: {
+          full_name: "",
+          email: "",
+          salary: 0
+        }
+      }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+
+      body = JSON.parse(response.body)
+
+      expect(body["errors"]).to include(
+        "full_name" => include("can't be blank"),
+        "email" => include("can't be blank"),
+        "salary" => include("must be greater than 0")
+      )
+
+      employee.reload
+      expect(employee.full_name).to eq("Vishal Sharma")
+      expect(employee.email).to eq("vishal@example.com")
+      expect(employee.salary).to eq(75000)
+    end
   end
+
 
   describe "DELETE /api/v1/employees/:id" do
     it "deletes an employee" do
