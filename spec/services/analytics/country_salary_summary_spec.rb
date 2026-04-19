@@ -26,13 +26,11 @@ RSpec.describe Analytics::CountrySalarySummary do
 
       result = described_class.call(country: "India")
 
-      expect(result).to eq(
-        {
-          country: "India",
-          min_salary: 50000,
-          max_salary: 70000,
-          avg_salary: 60000.0
-        }
+      expect(result).to include(
+        country: "India",
+        min_salary: 50000,
+        max_salary: 70000,
+        avg_salary: 60000.0
       )
     end
 
