@@ -107,4 +107,11 @@ RSpec.describe Employee, type: :model do
 
     expect(country_index).not_to be_nil
   end
+
+  it "has an index on job_title" do
+    indexes = ActiveRecord::Base.connection.indexes(:employees)
+    job_title_index = indexes.find { |index| index.columns == ["job_title"] }
+
+    expect(job_title_index).not_to be_nil
+  end
 end
