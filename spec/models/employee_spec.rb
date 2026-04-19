@@ -92,4 +92,13 @@ RSpec.describe Employee, type: :model do
       expect(employee.errors[:email]).to include("is invalid")
     end
   end
+
+  it "has a unique index on email" do
+    indexes = ActiveRecord::Base.connection.indexes(:employees)
+    email_index = indexes.find { |index| index.columns == ["email"] }
+
+    expect(email_index).not_to be_nil
+    expect(email_index.unique).to be(true)
+  end
+
 end
