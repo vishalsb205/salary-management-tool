@@ -80,7 +80,5 @@ RSpec.describe Employee, type: :model do
       expect(employee).not_to be_valid
       expect(employee.errors[:email]).to include("has already been taken")
     end
-
-
   end
 end
