@@ -1,47 +1,17 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f7fb;
-  color: #1f2937;
-}
-
-#root {
-  min-height: 100vh;
-}
-
-.app-shell {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 24px;
-}
-
-.app-header {
-  margin-bottom: 32px;
-}
-
-.app-header h1 {
-  margin-bottom: 12px;
-}
-
-.app-nav {
-  display: flex;
-  gap: 16px;
-}
-
-.app-nav a {
-  color: #2563eb;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.app-content {
-  display: grid;
-  gap: 24px;
-}
-
-.app-content section {
+table {
+  width: 100%;
+  border-collapse: collapse;
   background: white;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+th,
+td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+th {
+  background: #f9fafb;
+  font-size: 14px;
 }
