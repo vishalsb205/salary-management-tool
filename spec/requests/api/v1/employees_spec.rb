@@ -102,4 +102,32 @@ RSpec.describe "Api::V1::Employees", type: :request do
       expect(body["salary"]).to eq(75000)
     end
   end
+
+  describe "PATCH /api/v1/employees/:id" do
+    it "updates an employee" do
+      employee = Employee.create!(
+        full_name: "Vishal Sharma",
+        email: "vishal@example.com",
+        salary: 75000
+      )
+
+      patch "/api/v1/employees/#{employee.id}", params: {
+        employee: {
+          full_name: "Vishal Kumar",
+          salary: 80000
+        }
+      }
+
+      expect(response).to have_http_status(:ok)
+
+      body = JSON.parse(response.body)
+
+      expect(body["full_name"]).to eq("Vishal Kumar")
+      expect(body["salary"]).to eq(80000)
+
+      employee.reload
+      expect(employee.full_name).to eq("Vishal Kumar")
+      expect(employee.salary).to eq(80000)
+    end
+  end
 end
