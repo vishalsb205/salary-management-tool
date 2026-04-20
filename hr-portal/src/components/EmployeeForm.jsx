@@ -7,10 +7,11 @@ function EmployeeForm({ onEmployeeCreated }) {
     salary: "",
     country: "",
     job_title: "",
+    department: "",
   };
 
   const [formData, setFormData] = useState(initialFormData);
-
+  const [loading, setLoading] = useState(false);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -21,86 +22,87 @@ function EmployeeForm({ onEmployeeCreated }) {
     }));
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
+    setLoading(true);
 
-    fetch("http://localhost:3000/api/v1/employees", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        employee: {
-          ...formData,
-          salary: Number(formData.salary),
-        },
-      }),
-    }).then((response) => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/v1/employees",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            employee: {
+              ...formData,
+              salary: Number(formData.salary),
+            },
+          }),
+        }
+      );
+
       if (response.ok) {
         setFormData(initialFormData);
         onEmployeeCreated();
       }
-    });
+    } catch (error) {
+      console.error("Error creating employee:", error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="full_name">Full Name</label>
-        <input
-          id="full_name"
-          name="full_name"
-          type="text"
-          value={formData.full_name}
-          onChange={handleChange}
-        />
-      </div>
+      <input
+        name="full_name"
+        placeholder="Full Name"
+        value={formData.full_name}
+        onChange={handleChange}
+      />
 
-      <div>
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-      </div>
+      <input
+        name="email"
+        type="email"
+        placeholder="Email"
+        value={formData.email}
+        onChange={handleChange}
+      />
 
-      <div>
-        <label htmlFor="salary">Salary</label>
-        <input
-          id="salary"
-          name="salary"
-          type="number"
-          value={formData.salary}
-          onChange={handleChange}
-        />
-      </div>
+      <input
+        name="salary"
+        type="number"
+        placeholder="Salary"
+        value={formData.salary}
+        onChange={handleChange}
+      />
 
-      <div>
-        <label htmlFor="country">Country</label>
-        <input
-          id="country"
-          name="country"
-          type="text"
-          value={formData.country}
-          onChange={handleChange}
-        />
-      </div>
+      <input
+        name="country"
+        placeholder="Country"
+        value={formData.country}
+        onChange={handleChange}
+      />
 
-      <div>
-        <label htmlFor="job_title">Job Title</label>
-        <input
-          id="job_title"
-          name="job_title"
-          type="text"
-          value={formData.job_title}
-          onChange={handleChange}
-        />
-      </div>
+      <input
+        name="job_title"
+        placeholder="Job Title"
+        value={formData.job_title}
+        onChange={handleChange}
+      />
 
-      <button type="submit">Save Employee</button>
+      <input
+        name="department"
+        placeholder="Department"
+        value={formData.department}
+        onChange={handleChange}
+      />
+
+      <button type="submit" disabled={loading}>
+        {loading ? "Saving..." : "Save Employee"}
+      </button>
     </form>
   );
 }
