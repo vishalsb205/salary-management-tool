@@ -7,7 +7,10 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins ENV.fetch("FRONTEND_URL", "*")
+    origins(
+      "https://hr-portal.vercel.app",
+      /https:\/\/hr-portal-.*\.vercel\.app/
+    )
 
     resource "*",
       headers: :any,
