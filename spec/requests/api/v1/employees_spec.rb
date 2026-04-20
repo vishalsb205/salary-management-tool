@@ -91,7 +91,7 @@ RSpec.describe "Api::V1::Employees", type: :request do
         }
       end.not_to change(Employee, :count)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
 
       body = JSON.parse(response.body)
 
@@ -166,7 +166,7 @@ RSpec.describe "Api::V1::Employees", type: :request do
         }
       }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
 
       body = JSON.parse(response.body)
 
