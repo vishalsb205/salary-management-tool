@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import API_BASE_URL from "../config/api";
 
 function EmployeeList({ refreshKey, setRefreshKey }) {
   const [employees, setEmployees] = useState([]);
@@ -11,29 +12,29 @@ function EmployeeList({ refreshKey, setRefreshKey }) {
   // FETCH EMPLOYEES
   useEffect(() => {
     fetch(
-      `http://localhost:3000/api/v1/employees?page=${page}&per_page=25`
+      `${API_BASE_URL}/api/v1/employees?page=${page}&per_page=25`
     )
       .then((r) => r.json())
       .then((data) => {
-        setEmployees(data.employees || data);
+        setEmployees(data.employees || []);
         setMeta(data.meta || null);
       });
   }, [refreshKey, page]);
 
   // DELETE
   function handleDelete(id) {
-  const confirmDelete = window.confirm(
-    "Are you sure you want to delete this employee?"
-  );
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this employee?"
+    );
 
-  if (!confirmDelete) return;
+    if (!confirmDelete) return;
 
-  fetch(`http://localhost:3000/api/v1/employees/${id}`, {
-    method: "DELETE",
-  }).then(() => {
-    setRefreshKey((k) => k + 1);
-  });
-}
+    fetch(`${API_BASE_URL}/api/v1/employees/${id}`, {
+      method: "DELETE",
+    }).then(() => {
+      setRefreshKey((k) => k + 1);
+    });
+  }
 
   // OPEN EDIT MODAL
   function openEdit(emp) {
@@ -61,15 +62,13 @@ function EmployeeList({ refreshKey, setRefreshKey }) {
     e.preventDefault();
 
     fetch(
-      `http://localhost:3000/api/v1/employees/${editingEmployee.id}`,
+      `${API_BASE_URL}/api/v1/employees/${editingEmployee.id}`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          employee: form,
-        }),
+        body: JSON.stringify({ employee: form }),
       }
     ).then(() => {
       closeModal();
@@ -83,6 +82,7 @@ function EmployeeList({ refreshKey, setRefreshKey }) {
 
   return (
     <div>
+      {/* TABLE */}
       <table>
         <thead>
           <tr>
@@ -103,16 +103,19 @@ function EmployeeList({ refreshKey, setRefreshKey }) {
               <td>{e.salary}</td>
               <td>{e.country}</td>
               <td>{e.job_title}</td>
+
               <td className="actions">
                 <button onClick={() => openEdit(e)}>Edit</button>
-                <button onClick={() => handleDelete(e.id)}>Delete</button>
+                <button onClick={() => handleDelete(e.id)}>
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* PAGINATION (CENTERED FIX) */}
+      {/* PAGINATION (CENTERED) */}
       <div className="pagination">
         <button
           onClick={() => setPage((p) => Math.max(p - 1, 1))}

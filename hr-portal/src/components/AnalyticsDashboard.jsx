@@ -1,13 +1,30 @@
 import { useEffect, useMemo, useState } from "react";
+import API_BASE_URL from "../config/api";
 
 function AnalyticsDashboard() {
   const [country, setCountry] = useState("India");
   const [analytics, setAnalytics] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/v1/analytics?country=${country}`)
-      .then((response) => response.json())
-      .then((data) => setAnalytics(data));
+    async function fetchAnalytics() {
+      setLoading(true);
+
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/api/v1/analytics?country=${country}`
+        );
+
+        const data = await response.json();
+        setAnalytics(data);
+      } catch (err) {
+        console.error("Analytics fetch failed:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchAnalytics();
   }, [country]);
 
   const sortedJobStats = useMemo(() => {
@@ -32,7 +49,9 @@ function AnalyticsDashboard() {
         <option value="Singapore">Singapore</option>
       </select>
 
-      {analytics && (
+      {loading && <p>Loading analytics...</p>}
+
+      {analytics && !loading && (
         <div className="analytics-block">
           <div className="analytics-stats">
             <p>Employee Count: {analytics.employee_count}</p>
