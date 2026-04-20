@@ -128,9 +128,83 @@ th {
   font-size: 14px;
 }
 
-ul {
-  margin: 12px 0 0;
+/* analytics wrapper */
+.analytics-block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* top stats inline (fix vertical feel) */
+.analytics-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 16px;
+}
+
+/* remove ugly default spacing feel */
+.analytics-stats p {
+  margin: 0;
+  padding: 8px 10px;
+  background: #f9fafb;
+  border-radius: 6px;
+}
+
+/* job section placement */
+.analytics-job {
+  margin-top: 8px;
+}
+
+/* list spacing fix */
+.analytics-job ul {
+  margin: 8px 0 0;
   padding-left: 18px;
+}
+
+#analytics label {
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+}
+
+.job-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+/* THIS is the important fix */
+.job-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 8px 12px;
+  background: #f9fafb;
+  border-radius: 6px;
+}
+
+/* left column */
+.job-title {
+  text-align: left;
+  font-weight: 500;
+}
+
+/* right column */
+.job-value {
+  text-align: right;
+  font-weight: 600;
+  min-width: 80px;
 }
 
 @media (max-width: 768px) {

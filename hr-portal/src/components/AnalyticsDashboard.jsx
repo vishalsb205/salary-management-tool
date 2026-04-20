@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 function AnalyticsDashboard() {
   const [country, setCountry] = useState("India");
@@ -10,37 +10,53 @@ function AnalyticsDashboard() {
       .then((data) => setAnalytics(data));
   }, [country]);
 
+  const sortedJobStats = useMemo(() => {
+    const jobStats = analytics?.average_salary_by_job_title || {};
+
+    return Object.entries(jobStats).sort((a, b) => b[1] - a[1]);
+  }, [analytics]);
+
   return (
     <div>
       <label htmlFor="analytics-country">Country</label>
-      <input
+
+      <select
         id="analytics-country"
-        type="text"
         value={country}
         onChange={(event) => setCountry(event.target.value)}
-      />
+      >
+        <option value="India">India</option>
+        <option value="USA">USA</option>
+        <option value="UK">UK</option>
+        <option value="Germany">Germany</option>
+        <option value="Singapore">Singapore</option>
+      </select>
 
       {analytics && (
-        <div>
+        <div className="analytics-block">
+          <div className="analytics-stats">
             <p>Employee Count: {analytics.employee_count}</p>
             <p>Minimum Salary: {analytics.min_salary}</p>
             <p>Maximum Salary: {analytics.max_salary}</p>
             <p>Average Salary: {analytics.avg_salary}</p>
+          </div>
 
-            <div>
+          <div className="analytics-job">
             <h3>Average Salary by Job Title</h3>
-            <ul>
-                {Object.entries(analytics.average_salary_by_job_title || {}).map(
-                ([jobTitle, averageSalary]) => (
-                    <li key={jobTitle}>
-                    {jobTitle}: {averageSalary}
-                    </li>
-                )
-                )}
-            </ul>
+
+            <div className="job-list">
+              {sortedJobStats.map(([jobTitle, averageSalary]) => (
+                <div key={jobTitle} className="job-row">
+                  <span className="job-title">{jobTitle}</span>
+                  <span className="job-value">
+                    {Math.round(averageSalary)}
+                  </span>
+                </div>
+              ))}
             </div>
+          </div>
         </div>
-        )}
+      )}
     </div>
   );
 }
