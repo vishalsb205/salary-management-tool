@@ -22,12 +22,18 @@ function EmployeeList({ refreshKey, setRefreshKey }) {
 
   // DELETE
   function handleDelete(id) {
-    fetch(`http://localhost:3000/api/v1/employees/${id}`, {
-      method: "DELETE",
-    }).then(() => {
-      setRefreshKey((k) => k + 1);
-    });
-  }
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this employee?"
+  );
+
+  if (!confirmDelete) return;
+
+  fetch(`http://localhost:3000/api/v1/employees/${id}`, {
+    method: "DELETE",
+  }).then(() => {
+    setRefreshKey((k) => k + 1);
+  });
+}
 
   // OPEN EDIT MODAL
   function openEdit(emp) {
