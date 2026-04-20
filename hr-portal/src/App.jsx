@@ -46,7 +46,10 @@ function App() {
         {activeTab === "employees" && (
           <section>
             <h2>Employees</h2>
-            <EmployeeList refreshKey={refreshKey} />
+            <EmployeeList
+              refreshKey={refreshKey}
+              setRefreshKey={setRefreshKey}
+            />
           </section>
         )}
 
